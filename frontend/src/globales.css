@@ -1,0 +1,129 @@
+:root{
+    --purple:#9355FD;
+}
+
+body{
+    overflow-x: hidden !important;
+}
+
+.text-sm{
+    font-size: 0.8rem !important;
+}
+
+.text-md{
+    font-size: 0.9rem !important;
+}
+.text-lg{
+    font-size: 1.7rem !important;
+}
+
+.text-purple{
+    color: var(--purple) !important;
+}
+.border-purple{
+    border: 1px solid var(--purple) !important;
+}
+
+.bg-purple{
+    background-color: var(--purple) !important;
+}
+
+.bg-dark-purple{
+    background-color: #391f6650 !important;
+}
+
+.cursor-pointer{
+    cursor: pointer !important ;
+}
+
+.height-full{
+    height: 100vh !important;
+}
+
+.height-md{
+    height: 50vh !important;
+}
+
+
+.translate-nx-100{
+    transform: translateX(-100%) !important;
+}
+
+.translate-px-100{
+    transform: translateX(100%) !important;
+}
+
+.translate-ny-100{
+    transform: translateY(-100%) !important;
+}
+
+.translate-py-100{
+    transform: translateY(100%) !important;
+}
+
+.transition-slow{
+    transition: all 0.9s !important;
+}
+
+.transition-md{
+    transition: all 0.7s !important;
+}
+
+.transition-fast{
+    transition: all 0.3s !important;
+}
+
+.opacity-0{
+    opacity: 0 !important;
+}
+
+
+.opacity-1{
+    opacity: 1 !important;
+}
+
+.bg-img{
+    background-image: url('https://demos.themeselection.com/marketplace/materio-mui-nextjs-admin-template/demo-1/images/front-pages/landing-page/hero-bg-light.png');
+}
+
+.bg-size{
+    background-size: cover;
+}
+
+.bg-position{
+    background-position: center center;
+}
+
+.position-relative{
+    position: relative !important;
+}
+.position-absolute{
+    position: absolute !important;
+}
+
+.z-index{
+    z-index: 333;
+    
+}
+
+.overflow-y-scroll{
+    overflow-y: scroll !important;
+}
+
+.object-fit-cover{
+    object-fit: cover !important;
+}
+
+.bg-img-footer{
+    background-image: url("https://demos.themeselection.com/marketplace/materio-mui-nextjs-admin-template/demo-1/images/front-pages/footer-bg.png") !important;
+}
+
+.text-decoration-none{
+text-decoration: none !important;
+}
+
+.overflow-y-hidden{
+    overflow-y: hidden !important;
+}
+
+
