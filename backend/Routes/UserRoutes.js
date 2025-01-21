@@ -1,10 +1,13 @@
 const express = require("express");
-const { postuser, loginuser } = require("../Controllers/UserController");
+const {loginuser, verifyOTP, reguser } = require("../Controllers/UserController");
+const authMiddlerWare = require("../Middleware/authMiddleWare");
 
 const UserRoutes = express.Router();
 
-UserRoutes.post("/post-user", postuser);
+UserRoutes.post("/post-user", reguser);
 
 UserRoutes.post("/login-user", loginuser);
+
+UserRoutes.post("/verify-otp", authMiddlerWare , verifyOTP)
 
 module.exports = UserRoutes;

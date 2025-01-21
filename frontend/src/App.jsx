@@ -13,7 +13,8 @@ import "./style.css";
 import Home from "./pages/User/Home";
 import SignUp from "./pages/Admins/SignUp";
 import {Toaster} from 'react-hot-toast';
-import OTP from "./pages/User/OTP";
+import OTP from "./pages/Admins/OTP";
+import MainPanel from "./pages/Admins/dashboard/MainPanel";
 const App = () => {
   return (
     <>
@@ -32,10 +33,10 @@ const App = () => {
           <Route path="/admin">
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
-          </Route>
-          <Route path="/user">
               <Route path="otp/:id"  element={<OTP/> }/>
+              <Route path="dashboard"  element={<MainPanel/> }/>
           </Route>
+          
           
         </Routes>
       </Router>

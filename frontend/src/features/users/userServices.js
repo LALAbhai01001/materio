@@ -12,5 +12,31 @@ export const RegisterUser = async(userData) => {
 
 
     return response.data;
+
+    
+}
+
+
+export const verifyOTP = async(otpData , token) => {
+
+    // combine token in proper structure
+
+    const config = {
+        headers: {
+            Authorization : `Bearer ${token}`
+        }
+    }
+    
+    
+    
+    const response = await axios.post(
+      `http://localhost:3007/user/verify-otp`,
+      otpData,
+      config
+    );
+
+
+    return response.data;
+    
     
 }

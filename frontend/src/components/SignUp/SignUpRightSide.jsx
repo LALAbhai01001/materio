@@ -46,7 +46,7 @@ const SignUpRightSide = () => {
 
     if(userSucess){
       toast.success(` welcome ${user?.username}`);
-      navigate(`/user/otp/${user?. _id}`)
+      navigate(`/admin/otp/${user?. _id}`)
     }
 
     dispatch(userReset())
@@ -143,7 +143,7 @@ const SignUpRightSide = () => {
           </div>
 
           <button
-          disabled= {userLoader}
+            disabled= {userLoader}
             onClick={handleRegistration}
             type="button"
             className={`btn  ${

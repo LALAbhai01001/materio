@@ -1,7 +1,7 @@
 // 1, always imports two things first
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RegisterUser } from "./userServices";
+import { RegisterUser, verifyOTP } from "./userServices";
 
 
 // check the user to localstorage 
@@ -25,6 +25,19 @@ export const RegisterUserData = createAsyncThunk('register-user' , async(userdat
         return await RegisterUser(userdata);
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.message)
+    }
+})
+
+
+// call verify otp function of service
+
+export const verifyOTPData =  createAsyncThunk("verify-otp" , async(otpData , thunkAPI)=>{
+    try {
+        let token = thunkAPI.getState().user.user.token
+        return  await verifyOTP(otpData, token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data.message)
+        
     }
 })
 
@@ -56,6 +69,17 @@ export const userSlice = createSlice({
         }).addCase(RegisterUserData.fulfilled, (state ,action)=>{
             state.userLoader = false
             state.userError = false
+            state.userSucess = true
+            state.userMessage = action.payload
+            state.user = action.payload
+        }).addCase(verifyOTPData.pending , (state, action)=>{
+            state.userLoader = true
+        }).addCase(verifyOTPData.rejected , (state, action)=>{
+            state.userLoader= false
+            state.userError = true
+            state.userMessage =  action.payload
+        }).addCase(verifyOTPData.fulfilled , (state, action)=>{
+            state.userLoader = false
             state.userSucess = true
             state.userMessage = action.payload
             state.user = action.payload

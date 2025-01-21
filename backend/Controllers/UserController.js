@@ -2,16 +2,20 @@ const handler = require("express-async-handler");
 const UserModel = require("../Models/UserModel");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const JWT = require("jsonwebtoken");
+
+// random generate otp function 
 
 const generateOtp = () => {
   const randomNum = Math.random() * 1000000;
   const floorNum = Math.floor(randomNum);
-  return floorNum;
+  return floorNum.toString().padStart(6, "0");
 };
-
 const otp = generateOtp();
 
-const postuser = handler(async (req, res) => {
+// register user function
+
+const reguser = handler(async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -28,9 +32,6 @@ const postuser = handler(async (req, res) => {
     throw new Error("this email already exist");
   }
 
-
-  
-  
   const hashedpass = await bcrypt.hash(password, 10);
 
   const createuser = await UserModel.create({
@@ -41,7 +42,7 @@ const postuser = handler(async (req, res) => {
   });
 
   const id = createuser?._id;
-  
+
   // send the otp to the mail
 
   const transporter = nodemailer.createTransport({
@@ -125,53 +126,93 @@ const postuser = handler(async (req, res) => {
     }
   });
 
-  res.send(createuser);
-  throw new Error("acounte has been successfuly created");
-  
-
+  res.send({
+    _id: createuser._id,
+    username: createuser.username,
+    email: createuser.email,
+    otp: createuser.otp, 
+    token: generatetoken(createuser._id),
+  });
 });
 
 
 
+// login user function
 
 
-const loginuser = handler(async(req,res)=>{
-  const {email, password} = req.body;
+const loginuser = handler(async (req, res) => {
+  const { email, password } = req.body;
 
-  if(!email || !password){
+  if (!email || !password) {
     res.status(400);
     throw new Error("Please enter all the feilds");
-    
   }
 
   const finduser = await UserModel.findOne({
-    email
+    email,
   });
 
-  if(!finduser){
+  if (!finduser) {
     res.status(404);
     throw new Error("Invalid Email");
   }
 
-  if(finduser){
-    if(await bcrypt.compare(password, finduser.password )){
-        res.send(finduser)
-    }
-    else{
+  if (finduser) {
+    if (await bcrypt.compare(password, finduser.password)) {
+      res.send({
+        _id: finduser._id,
+        username: finduser.username,
+        email: finduser.email,
+        token: generatetoken(finduser._id),
+      });
+    } else {
       res.status(404);
       throw new Error("Invalid Password");
     }
   }
-
-})
-
+});
 
 
+// verify user otp 
 
 
+const verifyOTP = handler(async (req, res) => {
+  const user_id = req.user._id
+  const { otp } = req.body;
 
+  // find user
+
+  const findUser = await UserModel.findById(user_id);
+
+  if (!findUser) {
+    res.status(404);
+    throw new Error("user not found");
+  }
+
+  if (findUser) {
+    if (findUser.otp == otp) {
+      findUser.otp = null;
+      findUser.save();
+      res.send(findUser);
+    } else {
+      res.status(401);
+      throw new Error("Invalid OTP");
+    }
+  }
+});
+
+
+// create a JWT token
+
+
+const generatetoken = (id) => {
+  return JWT.sign({ id }, process.env.JSON_SECRET, {
+    expiresIn: "15d",
+  });
+};
 
 module.exports = {
-  postuser,
+  reguser,
   loginuser,
+  verifyOTP,
 };

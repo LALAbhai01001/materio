@@ -9,7 +9,7 @@ const Sidebar = ({ openSidebar, setOpenSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = () => {  
     setIsOpen(!isOpen);
   };
 
